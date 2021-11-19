@@ -36,7 +36,7 @@
 //SKU               101020015
 //IF_TYPE           ANALOG
 //IMAGE_URL         https://raw.githubusercontent.com/Seeed-Studio/Grove_Drivers_for_Wio/static/images/grove-temp-sensor.jpg
-//DESCRIPTION       "The Grove - Temperature Sensor uses a Thermistor to detect the ambient temperature. The resistance of a thermistor will increase when the ambient temperature decreases. It's this characteristic that we use to calculate the ambient temperature. The detectable range of this sensor is -40 - 125ºC, and the accuracy is ±1.5ºC"
+//DESCRIPTION       "The Grove - Temperature Sensor uses a Thermistor to detect the ambient temperature. The resistance of a thermistor will increase when the ambient temperature decreases. It's this characteristic that we use to calculate the ambient temperature. The detectable range of this sensor is -40 - 125Â°C, and the accuracy is Â±1.5Â°C"
 //WIKI_URL          http://wiki.seeedstudio.com/Grove-Temperature_Sensor/
 //ADDED_AT          "2015-10-01"
 //AUTHOR            "SEEED"
@@ -49,7 +49,7 @@ public:
     /**
      * Read the celsius temperature from the temperature sensor.
      *
-     * @param temperature - celsius degree with an accuracy of 1.5°C .
+     * @param temperature - celsius degree with an accuracy of 1.5Â°C .
      *
      * @return bool
      */
