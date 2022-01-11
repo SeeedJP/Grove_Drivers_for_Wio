@@ -119,6 +119,7 @@ void GroveCo2SCD30::Write(uint16_t cmd, const uint16_t* data, int dataNumber)
 	}
 
 	suli_i2c_write(i2c, I2C_ADDRESS, writeData, writeDataSize);
+	suli_delay_ms(3);
 }
 
 int GroveCo2SCD30::Read(uint16_t address, uint16_t* data, int dataNumber)
@@ -129,13 +130,13 @@ int GroveCo2SCD30::Read(uint16_t address, uint16_t* data, int dataNumber)
 	writeData[1] = address;
 
 	suli_i2c_write(i2c, I2C_ADDRESS, writeData, writeDataSize);
+	suli_delay_ms(3);
 
 	const int readDataSize{ 3 * dataNumber };
 	uint8_t readData[readDataSize];
 
-	suli_delay_ms(3);
-
 	if (suli_i2c_read(i2c, I2C_ADDRESS, readData, readDataSize) != readDataSize) return 0;
+	suli_delay_ms(3);
 
 	for (int i = 0; i < dataNumber; ++i)
 	{
