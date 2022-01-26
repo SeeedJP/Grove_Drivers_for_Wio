@@ -81,6 +81,29 @@ bool GroveCo2SCD30::read_concentration(float *concentration)
 	return true;
 }
 
+bool GroveCo2SCD30::write_forced_recalibration(int concentration)
+{
+	SetForcedRecalibration(concentration);
+
+	return true;
+}
+
+bool GroveCo2SCD30::read_automatic_selfcalibration(uint8_t *activate)
+{
+	bool value;
+	if (!GetAutomaticSelfCalibration(&value)) return false;
+	*activate = value ? 1 : 0;
+
+	return true;
+}
+
+bool GroveCo2SCD30::write_automatic_selfcalibration(uint8_t activate)
+{
+	SetAutomaticSelfCalibration(activate == 1 ? true : false);
+
+	return true;
+}
+
 uint8_t GroveCo2SCD30::CalcCRC(const void* data, int dataSize) const
 {
 	uint8_t crc = 0xff;
@@ -197,6 +220,32 @@ bool GroveCo2SCD30::ReadMeasurement(float* co2, float* t, float* rh)
 	*t = *(float*)&tmp;
 	tmp = data[4] << 16 | data[5];
 	*rh = *(float*)&tmp;
+
+	return true;
+}
+
+void GroveCo2SCD30::SetForcedRecalibration(float co2)
+{
+	uint16_t data;
+
+	data = (uint16_t)co2;
+	Write(0x5204, &data, 1);
+}
+
+void GroveCo2SCD30::SetAutomaticSelfCalibration(bool activate)
+{
+	uint16_t data;
+
+	data = activate ? 1 : 0;
+	Write(0x5306, &data, 1);
+}
+
+bool GroveCo2SCD30::GetAutomaticSelfCalibration(bool* activate)
+{
+	uint16_t data;
+
+	if (Read(0x5306, &data, 1) != 1) return false;
+	*activate = data == 1 ? true : false;
 
 	return true;
 }

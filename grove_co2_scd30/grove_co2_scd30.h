@@ -73,6 +73,33 @@ public:
      */
     bool read_concentration(float *concentration);
 
+    /**
+     * Execute forced re-calibration
+     *
+     * @param concentration - unit: PPM
+     *
+     * @return bool
+     */
+    bool write_forced_recalibration(int concentration);
+
+    /**
+     * Read the setting of automatic self-calibration
+     *
+     * @param activate - 1: on, 0: off
+     *
+     * @return bool
+     */
+    bool read_automatic_selfcalibration(uint8_t *activate);
+
+    /**
+     * Write the setting of automatic self-calibration
+     *
+     * @param activate - 1: on, 0: off
+     *
+     * @return bool
+     */
+    bool write_automatic_selfcalibration(uint8_t activate);
+
 private:
     static constexpr uint8_t I2C_ADDRESS = 0x61 << 1;
 
@@ -90,7 +117,9 @@ private:
 	int GetDataReadyStatus();
 	bool ReadyToRead();
 	bool ReadMeasurement(float* co2, float* t, float* rh);
-
+    void SetForcedRecalibration(float co2);
+    void SetAutomaticSelfCalibration(bool activate);
+    bool GetAutomaticSelfCalibration(bool* activate);
 };
 
 #endif
