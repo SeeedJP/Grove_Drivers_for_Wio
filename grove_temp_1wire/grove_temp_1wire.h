@@ -1,7 +1,7 @@
 /*
  * grove_temp_1wire.h
  *
- * Copyright (c) 2017 Seeed K.K.
+ * Copyright (c) 2017-2022 Seeed K.K.
  * Website    : www.seeed.co.jp
  * Author     : Takashi Matsuoka
  *
@@ -78,10 +78,12 @@ private:
 	bool onewire_skip_rom();
 	bool onewire_write_scratchpad(uint8_t th, uint8_t tl, uint8_t config);
 	int onewire_read_scratchpad(uint8_t* data, int dataSize);
-	bool onewire_convert_t();
+	bool onewire_convert_t(unsigned long waitMs);
 
 	bool internal_write_byte(uint8_t data);
 	bool internal_read_byte(uint8_t* data);
+
+	uint8_t CalcCRC(const void* data, int dataSize) const;
 
 };
 

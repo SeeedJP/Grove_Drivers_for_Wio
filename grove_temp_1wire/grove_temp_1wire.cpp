@@ -1,7 +1,7 @@
 /*
  * grove_temp_1wire.cpp
  *
- * Copyright (c) 2017 Seeed K.K.
+ * Copyright (c) 2017-2022 Seeed K.K.
  * Website    : www.seeed.co.jp
  * Author     : Takashi Matsuoka
  *
@@ -46,12 +46,13 @@ bool GroveTemp1Wire::read_temp(float *temperature)
 
 	if (!onewire_reset()) return false;
 	if (!onewire_skip_rom()) return false;
-	if (!onewire_convert_t()) return false;
+	if (!onewire_convert_t(750)) return false;						// 750ms (12bits)
 
 	if (!onewire_reset()) return false;
 	if (!onewire_skip_rom()) return false;
 	uint8_t data[9];
-	if (onewire_read_scratchpad(data, sizeof(data)) != 9) return false;
+	if (onewire_read_scratchpad(data, sizeof(data)) != sizeof(data)) return false;
+	if (CalcCRC(data, sizeof(data) - 1) != data[sizeof(data) - 1]) return false;
 
 	*temperature = (float)*(int16_t*)&data[0] * 125.f / 2000.f;
 
@@ -100,30 +101,29 @@ int GroveTemp1Wire::onewire_read_scratchpad(uint8_t* data, int dataSize)
 	return 9;
 }
 
-bool GroveTemp1Wire::onewire_convert_t()
+bool GroveTemp1Wire::onewire_convert_t(unsigned long waitMs)
 {
 	if (!internal_write_byte(0x44)) return false;	// Convert T
+	suli_delay_ms(waitMs);
 
-	int done;
-	do {
-		// Start of slot.
-		pin_write(0);
-		suli_delay_us(1);
+	// Start of slot.
+	pin_write(0);
+	suli_delay_us(1);
 
-		// free bus.
-		pin_write(1);
-		suli_delay_us(9);
+	// free bus.
+	pin_write(1);
+	suli_delay_us(9);
 
-		// Read.
-		done = pin_read();
+	// Read.
+	int done = pin_read();
 
-		// End of slot.
-		suli_delay_us(50);
+	// End of slot.
+	suli_delay_us(50);
 
-		// Check bus.
-		if (!pin_read()) return false;
-	}
-	while (!done);
+	// Check bus.
+	if (!pin_read()) return false;
+
+	if (!done) return false;
 
 	return true;
 }
@@ -180,4 +180,29 @@ bool GroveTemp1Wire::internal_read_byte(uint8_t* data)
 	}
 
 	return true;
+}
+
+uint8_t GroveTemp1Wire::CalcCRC(const void* data, int dataSize) const
+{
+	uint8_t crc = 0;
+
+	for (int i = 0; i < dataSize; ++i)
+	{
+		uint8_t inbyte = static_cast<const uint8_t*>(data)[i];
+
+		for (int bit = 8; bit > 0; --bit)
+		{
+			if ((crc ^ inbyte) & 0x01)
+			{
+				crc = (crc >> 1) ^ 0x8c;  // x^8 + x^5 + x^4 + 1
+			}
+			else
+			{
+				crc = (crc >> 1);
+			}
+			inbyte >>= 1;
+		}
+	}
+
+	return crc;
 }
