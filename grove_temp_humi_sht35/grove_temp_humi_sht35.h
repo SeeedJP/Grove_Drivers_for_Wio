@@ -58,7 +58,7 @@ public:
     bool read_temperature(float *temperature);
 
     /**
-     *
+     * Read the humidity value of the envirenment
      *
      * @param humidity - unit: %
      *
@@ -67,7 +67,7 @@ public:
     bool read_humidity(float *humidity);
 
     /**
-     *
+     * Activate/deactivate the heater
      *
      * @param onoff - 1: on, 0: off
      *
