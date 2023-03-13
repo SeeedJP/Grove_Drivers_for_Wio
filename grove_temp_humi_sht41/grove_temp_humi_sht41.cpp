@@ -1,7 +1,7 @@
 /*
  * grove_temp_humi_sht41.cpp
  *
- * Copyright (c) 2022 Seeed K.K.
+ * Copyright (c) 2023 Seeed K.K.
  * Website    : www.seeed.co.jp
  * Author     : MATSUOKA Takashi
  *

@@ -1,7 +1,7 @@
 /*
  * grove_adc_ads1115.h
  *
- * Copyright (c) 2022 Seeed K.K.
+ * Copyright (c) 2023 Seeed K.K.
  * Website    : www.seeed.co.jp
  * Author     : MATSUOKA Takashi
  *
