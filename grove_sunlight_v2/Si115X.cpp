@@ -180,7 +180,7 @@ bool Si115X::Begin(I2C_T *i2c_device, bool mode){
         conf[2] = 0B00000001; // 16-bits output, Interrupt when the measurement is larger than THRESHOLD0
         conf[3] = 0B01000001; // enable LED1A, the time between measurements is 800*MEASRATE*MEASCOUNT0 us
         config_channel(0, conf);
-        conf[0] = 0B01101101; // 1x Visible
+        conf[0] = 0B01101101; // 2x Visible
         conf[1] = 0B00000010; // 48.8us Nominal Measurement time for 512 decimation rate
         conf[2] = 0B00000001; // 16-bits output, Interrupt when the measurement is larger than THRESHOLD0
         conf[3] = 0B10001001; // enable LED1B, the time between measurements is 800*MEASRATE*MEASCOUNT1 us

@@ -35,6 +35,18 @@ GroveSI115X::GroveSI115X(int pinsda, int pinscl)
     this->i2c = (I2C_T *)malloc(sizeof(I2C_T));
     suli_i2c_init(this->i2c, pinsda, pinscl);
     si115x.Begin(i2c);
+
+    uint8_t conf[4];
+    conf[0] = 0b01100000;   // ADCCONFIGx
+    conf[1] = 0b00000000;   // ADCSENSx
+    conf[2] = 0b00100000;   // ADCPOSTx
+    conf[3] = 0b00000000;   // MEASCONFIGx
+    si115x.config_channel(0, conf);
+    conf[0] = 0b01101011;   // ADCCONFIGx
+    conf[1] = 0b00000000;   // ADCSENSx
+    conf[2] = 0b00100000;   // ADCPOSTx
+    conf[3] = 0b00000000;   // MEASCONFIGx
+    si115x.config_channel(1, conf);
 }
 
 bool GroveSI115X::read_visiblelight(float *VL)
