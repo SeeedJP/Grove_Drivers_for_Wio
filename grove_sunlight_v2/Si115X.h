@@ -122,8 +122,8 @@ class Si115X
 		} ParameterAddress;
 		
 		// Si115X();
-		void config_channel(uint8_t index, uint8_t *conf);
-		void write_data(uint8_t addr, uint8_t *data, size_t len);
+		void config_channel(uint8_t index, const uint8_t *conf);
+		void write_data(uint8_t addr, const uint8_t *data, size_t len);
 		int read_register(uint8_t addr, uint8_t reg, int bytesOfData);
 		uint8_t read_register(uint8_t addr, uint8_t reg) {
 			return read_register(addr, reg, 1);
@@ -136,7 +136,6 @@ class Si115X
 		void param_set(uint8_t loc, uint8_t val);
 		int param_query(uint8_t loc);
 		void send_command(uint8_t code);
-		int get_int_from_bytes(uint8_t *data, size_t len);
 
 		bool Begin(I2C_T *i2c_device, bool mode);
 		bool Begin(I2C_T *i2c_device) {
