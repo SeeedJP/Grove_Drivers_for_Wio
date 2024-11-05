@@ -28,8 +28,8 @@
 
 // Datasheet: https://files.seeedstudio.com/wiki/Grove-VOC_and_eCO2_Gas_Sensor-SGP30/res/Sensirion_Gas_Sensors_SGP30_Datasheet_EN.pdf
 
-#ifndef __grove_voc_co2_sgp30_H__
-#define __grove_voc_co2_sgp30_H__
+#ifndef __GROVE_VOC_CO2_SGP30_H__
+#define __GROVE_VOC_CO2_SGP30_H__
 
 #include "suli2.h"
 
@@ -42,10 +42,10 @@
 //ADDED_AT          "2024-11-03"
 //AUTHOR            "Fin Warman"
 
-class GroveVOCSGP30
+class GroveVocCo2SGP30
 {
 public:
-    GroveVOCSGP30(int pinsda, int pinscl);
+    GroveVocCo2SGP30(int pinsda, int pinscl);
 
     /**
      * Initialize the SGP30 sensor

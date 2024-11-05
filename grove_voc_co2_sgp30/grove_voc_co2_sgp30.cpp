@@ -35,7 +35,7 @@
 #define SGP30_INIT_AIR_QUALITY 0x2003
 #define SGP30_MEASURE_AIR_QUALITY 0x2008
 
-GroveVOCSGP30::GroveVOCSGP30(int pinsda, int pinscl)
+GroveVocCo2SGP30::GroveVocCo2SGP30(int pinsda, int pinscl)
 {
     error = false;
     this->i2c = (I2C_T *)malloc(sizeof(I2C_T));
@@ -48,12 +48,12 @@ GroveVOCSGP30::GroveVOCSGP30(int pinsda, int pinscl)
     }
 }
 
-bool GroveVOCSGP30::begin()
+bool GroveVocCo2SGP30::begin()
 {
     return send_command(SGP30_INIT_AIR_QUALITY); // Initialize air quality measurement
 }
 
-bool GroveVOCSGP30::read_air_quality(uint16_t *tvoc, uint16_t *eco2)
+bool GroveVocCo2SGP30::read_air_quality(uint16_t *tvoc, uint16_t *eco2)
 {
     if (error)
         return false;
@@ -91,14 +91,14 @@ bool GroveVOCSGP30::read_air_quality(uint16_t *tvoc, uint16_t *eco2)
     return true;
 }
 
-bool GroveVOCSGP30::send_command(uint16_t cmd)
+bool GroveVocCo2SGP30::send_command(uint16_t cmd)
 {
     uint8_t data[2] = {(uint8_t)(cmd >> 8), (uint8_t)(cmd & 0xFF)};
     return suli_i2c_write(i2c, SGP30_I2C_ADDRESS, data, 2) == 2;
 }
 
 // CRC-8 calculation based on SGP30 datasheet specification
-uint8_t GroveVOCSGP30::calculate_crc(uint8_t data[], uint8_t length)
+uint8_t GroveVocCo2SGP30::calculate_crc(uint8_t data[], uint8_t length)
 {
     uint8_t crc = 0xFF; // Init as per the datasheet
     for (uint8_t i = 0; i < length; i++)
